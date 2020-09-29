@@ -1,0 +1,85 @@
+<div class="py-3 text-center">
+    <h4>{{ evento }}</h4>
+    <h6>del 7 al 11 de noviembre 2020</h6>
+</div>
+
+<h4 class="text-center text-secondary mb-4">Formulario de registro</h4>
+
+{{ form_start(form) }}
+
+<h4 class="text-secondary border-bottom my-4 pb-2">Información personal</h4>
+<div class="row">
+    <div class="form-group col-md-4 col-sm-12">
+        <label for="inputNombres">Nombre(s)</label>
+        {{ form_widget(form.nombre, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.nombre) }}
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+        <label for="inputPaterno">Apellido(s)</label>
+        {{ form_widget(form.apaterno, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.apaterno) }}
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+        {{ form_label(form.correo) }}
+        {{ form_widget(form.correo, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.correo) }}
+    </div>
+
+    <div class="form-group col-md-2 col-sm-12">
+        {{ form_label(form.genero) }}
+        {{ form_widget(form.genero, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.genero) }}
+    </div>
+
+</div>
+
+<h4 class="text-secondary border-bottom my-4 pb-2">Información académica</h4>
+<div class="row">
+    <div class="form-group col-md-8 col-sm-12">
+        <label for="inputInstitucion">Institución de procedencia</label>
+        {{ form_widget(form.institucion, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.institucion) }}
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+        <label for="inputPorcentaje">Porcentaje de avance en licenciatura</label>
+        {{ form_widget(form.porcentaje, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.porcentaje) }}
+    </div>
+    <div class="form-group col-md-8 col-sm-12">
+        <label for="inputProfesorInst">Profesor que lo recomienda</label>
+        {{ form_widget(form.profesorInst, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.profesorInst) }}
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+        {{ form_label(form.profesorCorreo) }}
+        {{ form_widget(form.profesorCorreo, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.profesorCorreo) }}
+    </div>
+    <div class="col-md-12" >
+        <div class="alert alert-dismissable alert-warning">
+            <span class="glyphicon glyphicon-exclamation-sign"></span>
+            Los archivos que selecciones debe estar en formato <i class="fa fa-file-pdf-o"></i>
+            PDF y tener un tamaño menor a 2MB.
+        </div>
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+        {{ form_label(form.credencialFile) }}
+        {{ form_widget(form.credencialFile) }}
+        {{ form_errors(form.credencialFile) }}
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+        {{ form_label(form.historialFile) }}
+        {{ form_widget(form.historialFile) }}
+        {{ form_errors(form.historialFile) }}
+    </div>
+
+
+
+
+
+</div>
+
+
+    {{ form_widget(form) }}
+    <button class="btn btn-primary">{{ button_label|default('Enviar') }}</button>
+{{ form_end(form) }}

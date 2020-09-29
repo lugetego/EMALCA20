@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registro{% endblock %}
+
+{% block body %}
+    <h1>Registro</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ registro.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ registro.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Apaterno</th>
+                <td>{{ registro.apaterno }}</td>
+            </tr>
+            <tr>
+                <th>Institucion</th>
+                <td>{{ registro.institucion }}</td>
+            </tr>
+            <tr>
+                <th>Genero</th>
+                <td>{{ registro.genero ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Correo</th>
+                <td>{{ registro.correo }}</td>
+            </tr>
+            <tr>
+                <th>Porcentaje</th>
+                <td>{{ registro.porcentaje }}</td>
+            </tr>
+            <tr>
+                <th>Credencial</th>
+                <td><a href="{{ vich_uploader_asset(registro, 'credencialFile') }}"  target="_blank">{{ registro.credencialName }}</a></td>
+            </tr>
+            <tr>
+                <th>Historial</th>
+                <td><a href="{{ vich_uploader_asset(registro, 'historialFile') }}"  target="_blank">{{ registro.historialName }}</a></td>
+            </tr>
+            <tr>
+                <th>ProfesorInst</th>
+                <td>{{ registro.profesorInst }}</td>
+            </tr>
+            <tr>
+                <th>ProfesorCorreo</th>
+                <td>{{ registro.profesorCorreo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('registro_index') }}">back to list</a>
+
+    <a href="{{ path('registro_edit', {'id': registro.id}) }}">edit</a>
+
+    {{ include('registro/_delete_form.html.twig') }}
+{% endblock %}

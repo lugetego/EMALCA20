@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registro index{% endblock %}
+
+{% block body %}
+    <h1>Registro index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Apaterno</th>
+                <th>Institucion</th>
+                <th>Genero</th>
+                <th>Correo</th>
+                <th>Porcentaje</th>
+                <th>ProfesorInst</th>
+                <th>ProfesorCorreo</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for registro in registros %}
+            <tr>
+                <td>{{ registro.id }}</td>
+                <td>{{ registro.nombre }}</td>
+                <td>{{ registro.apaterno }}</td>
+                <td>{{ registro.institucion }}</td>
+                <td>{{ registro.genero ? 'Yes' : 'No' }}</td>
+                <td>{{ registro.correo }}</td>
+                <td>{{ registro.porcentaje }}</td>
+                <td>{{ registro.profesorInst }}</td>
+                <td>{{ registro.profesorCorreo }}</td>
+                <td>
+                    <a href="{{ path('registro_show', {'id': registro.id}) }}">show</a>
+                    <a href="{{ path('registro_edit', {'id': registro.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('registro_new') }}">Create new</a>
+{% endblock %}
