@@ -1,0 +1,9 @@
+body {
+    font-family: 'Nunito Sans', sans-serif;
+    height: 80%;
+    color: #3a689a;
+}
+
+.table th {
+    text-align: center;
+}

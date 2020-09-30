@@ -43,11 +43,11 @@ class RegistroType extends AbstractType
             ->add('profesorCorreo')
             ->add('credencialFile', VichFileType::class, array(
                 'required'=> true,
-                'label' => 'Credencial'
+                'label' => 'Credencial vigente o algo que muestre que está inscrito este semestre'
             ))
             ->add('historialFile', VichFileType::class, array(
                 'required'=> true,
-                'label' => 'Historial'
+                'label' => 'Historial académico'
             ))
         ;
     }
