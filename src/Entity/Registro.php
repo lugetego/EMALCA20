@@ -7,13 +7,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Gedmo\Mapping\Annotation as Gedmo;
 
 
 
 /**
  * @ORM\Entity(repositoryClass=RegistroRepository::class)
  * @Vich\Uploadable
+ * @ORM\HasLifecycleCallbacks()
  */
 class Registro
 {
@@ -107,6 +108,31 @@ class Registro
      */
     private $historialName;
 
+    /**
+     * @Gedmo\Slug(fields={"nombre", "apaterno"})
+     * @ORM\Column(length=128, unique=true)
+     */
+    private $slug;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="createdAt", type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="modifiedAt", type="datetime", nullable=true)
+     */
+    private $modifiedAt;
+
+
+    public function getSlug()
+    {
+        return $this->slug;
+    }
 
 
 
@@ -281,5 +307,64 @@ public function getNombre(): ?string
     {
         return $this->historialName;
     }
+
+/**
+ * Set createdAt
+ *
+ * @param \DateTime $createdAt
+ *
+ * @return Registro
+ */
+    public function setCreatedAt($createdAt)
+{
+    $this->createdAt = $createdAt;
+
+    return $this;
+}
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+{
+    return $this->createdAt;
+}
+
+  /**
+   * @return \DateTime
+   */
+    public function getModifiedAt()
+{
+    return $this->modifiedAt;
+}
+
+    /**
+     * @param \DateTime $modifiedAt
+     */
+    public function setModifiedAt($modifiedAt)
+{
+    $this->modifiedAt = $modifiedAt;
+}
+/**
+ * @ORM\PrePersist
+ */
+    public function prePersist()
+{
+    $this->setCreatedAt(new \DateTime());
+    $this->setModifiedAt(new \DateTime());
+}
+
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate()
+{
+    $this->setModifiedAt(new \DateTime());
+}
+
+
 
 }

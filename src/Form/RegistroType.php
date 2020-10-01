@@ -23,8 +23,8 @@ class RegistroType extends AbstractType
             ->add('genero', ChoiceType::class, [
                 'choices'  => [
                     'Seleccionar' => null,
-                    'Hombre' => true,
-                    'Mujer' => false,
+                    'Masculino' => true,
+                    'Femenino' => false,
                 ],
             ])
             ->add('correo')

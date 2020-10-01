@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 /**
  * @Route("/registro")
  */
@@ -62,7 +63,7 @@ class RegistroController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="registro_show", methods={"GET"})
+     * @Route("/{slug}", name="registro_show", methods={"GET"})
      */
     public function show(Registro $registro): Response
     {

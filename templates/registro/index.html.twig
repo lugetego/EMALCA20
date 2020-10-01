@@ -1,11 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Registro index{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/b-1.5.1/datatables.min.css"/>
+{% endblock %}
+
+{% block title %}Registros{% endblock %}
 
 {% block body %}
-    <h1>Registro index</h1>
 
-    <table class="table">
+<div class="container-fluid">
+    <h4 class="my-4 text-secondary">Lista de registros</h4>
+
+
+    <table id="registry" class="table table-sm table-striped table-bordered" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th>Id</th>
@@ -14,27 +22,26 @@
                 <th>Institucion</th>
                 <th>Genero</th>
                 <th>Correo</th>
-                <th>Porcentaje</th>
-                <th>ProfesorInst</th>
-                <th>ProfesorCorreo</th>
-                <th>actions</th>
+                <th>Avance</th>
+                <th>Profesor</th>
+                <th>Correo</th>
+                <th>&nbsp;</th>
             </tr>
         </thead>
         <tbody>
         {% for registro in registros %}
             <tr>
-                <td>{{ registro.id }}</td>
-                <td>{{ registro.nombre }}</td>
+                <td><a href="{{ path('registro_show', {'slug': registro.slug}) }}">{{ registro.slug }}</a></td>
+                <td>{{  registro.nombre }}</a></td>
                 <td>{{ registro.apaterno }}</td>
                 <td>{{ registro.institucion }}</td>
-                <td>{{ registro.genero ? 'Yes' : 'No' }}</td>
+                <td>{{ registro.genero ? 'Masculino' : 'Femenino' }}</td>
                 <td>{{ registro.correo }}</td>
-                <td>{{ registro.porcentaje }}</td>
+                <td>{{ registro.porcentaje }}%</td>
                 <td>{{ registro.profesorInst }}</td>
                 <td>{{ registro.profesorCorreo }}</td>
                 <td>
-                    <a href="{{ path('registro_show', {'id': registro.id}) }}">show</a>
-                    <a href="{{ path('registro_edit', {'id': registro.id}) }}">edit</a>
+                    <a href="{{ path('registro_show', {'slug': registro.slug}) }}">Ver</a>
                 </td>
             </tr>
         {% else %}
@@ -45,5 +52,24 @@
         </tbody>
     </table>
 
-    <a href="{{ path('registro_new') }}">Create new</a>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/b-1.5.1/b-html5-1.5.1/datatables.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#registry').DataTable({
+
+
+                pageLength: 15,
+
+            } );
+        } );
+    </script>
 {% endblock %}

@@ -3,60 +3,40 @@
 {% block title %}Registro{% endblock %}
 
 {% block body %}
-    <h1>Registro</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ registro.id }}</td>
-            </tr>
-            <tr>
-                <th>Nombre</th>
-                <td>{{ registro.nombre }}</td>
-            </tr>
-            <tr>
-                <th>Apaterno</th>
-                <td>{{ registro.apaterno }}</td>
-            </tr>
-            <tr>
-                <th>Institucion</th>
-                <td>{{ registro.institucion }}</td>
-            </tr>
-            <tr>
-                <th>Genero</th>
-                <td>{{ registro.genero ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Correo</th>
-                <td>{{ registro.correo }}</td>
-            </tr>
-            <tr>
-                <th>Porcentaje</th>
-                <td>{{ registro.porcentaje }}</td>
-            </tr>
-            <tr>
-                <th>Credencial</th>
-                <td><a href="{{ vich_uploader_asset(registro, 'credencialFile') }}"  target="_blank">{{ registro.credencialName }}</a></td>
-            </tr>
-            <tr>
-                <th>Historial</th>
-                <td><a href="{{ vich_uploader_asset(registro, 'historialFile') }}"  target="_blank">{{ registro.historialName }}</a></td>
-            </tr>
-            <tr>
-                <th>ProfesorInst</th>
-                <td>{{ registro.profesorInst }}</td>
-            </tr>
-            <tr>
-                <th>ProfesorCorreo</th>
-                <td>{{ registro.profesorCorreo }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="mt-5">
+        <nav aria-label="breadcrumb ">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('registro_index') }}">Todos los registros</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{  registro.slug }}</li>
+                <li class="breadcrumb-item active"><small>Creación: {{ registro.createdAt|date }}</small></li>
+                <li class="breadcrumb-item active"><small>Modificación: {{ registro.modifiedAt|date }}</small></li>
 
-    <a href="{{ path('registro_index') }}">back to list</a>
+            </ol>
+        </nav>
+    </div>
 
-    <a href="{{ path('registro_edit', {'id': registro.id}) }}">edit</a>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">{{ registro.nombre }} {{ registro.apaterno }} {% if registro.genero == false %}
+                            <em><small>Mujer</small></em>
+                        {% else %}
+                            <em></em-><small>Hombre</small></em>
+                        {% endif %}</h4>
+                    <p class="card-text">
+                        {{ registro.correo }}
+                    </p>
+                    <p class="card-text">{{ registro.institucion }}, {{ registro.porcentaje }}%</p>
+                    <p class="card-text">Profesor: {{ registro.profesorInst }}, {{ registro.profesorCorreo }}</p>
+                    <a href="{{ vich_uploader_asset(registro, 'credencialFile') }}" class="card-link" target="_blank">Identificación</a>
+                    <a href="{{ vich_uploader_asset(registro, 'historialFile') }}" class="card-link" target="_blank">Historial académico</a>
+                    <button type="button" class="btn btn-primary btn-xs pull-right" data-toggle="modal" data-target="#evalModal">
+                        <i class="fa fa-check"></i> Evaluar </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    {{ include('registro/_delete_form.html.twig') }}
 {% endblock %}
