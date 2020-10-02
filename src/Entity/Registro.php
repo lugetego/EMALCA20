@@ -41,7 +41,7 @@ class Registro
     private $institucion;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="string", length=255)
      */
     private $genero;
 
@@ -128,6 +128,14 @@ class Registro
      */
     private $modifiedAt;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $pais;
+
+
+
+
 
     public function getSlug()
     {
@@ -177,12 +185,12 @@ public function getNombre(): ?string
     return $this;
 }
 
-    public function getGenero(): ?bool
+    public function getGenero(): ?string
     {
         return $this->genero;
     }
 
-    public function setGenero(bool $genero): self
+    public function setGenero(string $genero): self
 {
     $this->genero = $genero;
 
@@ -236,6 +244,19 @@ public function getNombre(): ?string
 
     return $this;
 }
+
+    public function getPais(): ?string
+    {
+        return $this->pais;
+    }
+
+    public function setPais(string $pais): self
+{
+    $this->pais = $pais;
+
+    return $this;
+}
+
 
 
  /**
@@ -367,4 +388,25 @@ public function getNombre(): ?string
 
 
 
+/**
+ * @Assert\IsTrue(message = "Si tu porcentaje de avance de licenciatura es menor al 100% es
+   necesario que nos envies tu credencial que compruebe que actualmente estás inscrito."))
+ */
+    public function isPorcentajeValid()
+
+{
+
+    $porcentaje = $this->porcentaje;
+    $credencial = $this->credencialFile;
+
+    if ($porcentaje < 100 && $credencial == null)
+    {
+        return false;
+    }
+    else
+        return true;
+    }
+
+
 }
+

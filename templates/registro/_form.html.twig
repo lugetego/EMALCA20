@@ -6,19 +6,21 @@
 
 <div class="mt-2 alert alert-secondary" role="alert">
     <p><strong>Importante</strong></p>
-<ul>
-    <li>Todos los campos en este formulario son obligatorios.</li>
-    <li>Asegúrate de escribir correctamente tu correo electrónico ya que te enviaremos
-    un correo que te confirmará que hemos recibido tu registro.</li>
-    <li>En caso de que no recibas el correo de confirmación debes escribir al correo
-    wemaster<i class="fa     fa-at"></i>matmor.unam.mx para verificar que hayamos recibido tu información.</li>
+    <ul>
+        <li>Todos los campos en este formulario son obligatorios.</li>
+        <li>Asegúrate de escribir correctamente tu correo electrónico ya que te enviaremos
+            un correo que te confirmará que hemos recibido tu registro.</li>
+        <li>En caso de que no recibas el correo de confirmación debes escribir al correo
+            wemaster<i class="fa     fa-at"></i>matmor.unam.mx para verificar que hayamos recibido tu información.</li>
     </ul>
 </div>
 
 {{ form_start(form) }}
 
+{{ form_errors(form) }}
 <h4 class="text-secondary border-bottom my-4 pb-2">Información personal</h4>
 <div class="row">
+
     <div class="form-group col-md-4 col-sm-12">
         <label for="inputNombres">Nombre(s)</label>
         {{ form_widget(form.nombre, {'attr': {'class': 'form-control'}}) }}
@@ -29,18 +31,24 @@
         {{ form_widget(form.apaterno, {'attr': {'class': 'form-control'}}) }}
         {{ form_errors(form.apaterno) }}
     </div>
-    <div class="form-group col-md-4 col-sm-12">
-        {{ form_label(form.correo) }}
-        {{ form_widget(form.correo, {'attr': {'class': 'form-control'}}) }}
-        {{ form_errors(form.correo) }}
-    </div>
-
     <div class="form-group col-md-2 col-sm-12">
         {{ form_label(form.genero) }}
         {{ form_widget(form.genero, {'attr': {'class': 'form-control'}}) }}
         {{ form_errors(form.genero) }}
     </div>
 
+    <div class="form-group col-md-4 col-sm-12">
+        {{ form_label(form.correo) }}
+        {{ form_widget(form.correo, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.correo) }}
+    </div>
+
+
+    <div class="form-group col-md-4 col-sm-12">
+        <label for="inputPais">País de residencia</label>
+        {{ form_widget(form.pais, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.pais) }}
+    </div>
 </div>
 
 <h4 class="text-secondary border-bottom my-4 pb-2">Información académica</h4>
@@ -51,7 +59,7 @@
         {{ form_errors(form.institucion) }}
     </div>
     <div class="form-group col-md-4 col-sm-12">
-        <label for="inputPorcentaje">Porcentaje de avance en licenciatura</label>
+        <label for="inputPorcentaje">Porcentaje de avance de licenciatura</label>
         {{ form_widget(form.porcentaje, {'attr': {'class': 'form-control'}}) }}
         {{ form_errors(form.porcentaje) }}
     </div>
@@ -84,12 +92,11 @@
     </div>
 
 
+    {#{{ form_widget(form) }}#}
 
 
 
 </div>
 
-
-    {{ form_widget(form) }}
-    <button class="btn btn-primary">{{ button_label|default('Enviar') }}</button>
+<button class="btn btn-primary">{{ button_label|default('Enviar') }}</button>
 {{ form_end(form) }}

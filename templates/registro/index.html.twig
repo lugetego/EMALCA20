@@ -19,8 +19,8 @@
                 <th>Id</th>
                 <th>Nombre</th>
                 <th>Apaterno</th>
-                <th>Institucion</th>
-                <th>Genero</th>
+                <th>Institución</th>
+                <th>Género</th>
                 <th>Correo</th>
                 <th>Avance</th>
                 <th>Profesor</th>
@@ -32,7 +32,7 @@
         {% for registro in registros %}
             <tr>
                 <td><a href="{{ path('registro_show', {'slug': registro.slug}) }}">{{ registro.slug }}</a></td>
-                <td>{{  registro.nombre }}</a></td>
+                <td>{{ registro.nombre }}</a></td>
                 <td>{{ registro.apaterno }}</td>
                 <td>{{ registro.institucion }}</td>
                 <td>{{ registro.genero ? 'Masculino' : 'Femenino' }}</td>
@@ -65,10 +65,7 @@
     <script>
         $(document).ready(function() {
             $('#registry').DataTable({
-
-
                 pageLength: 15,
-
             } );
         } );
     </script>
