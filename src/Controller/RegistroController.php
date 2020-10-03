@@ -36,6 +36,7 @@ class RegistroController extends AbstractController
     {
         $registro = new Registro();
         $form = $this->createForm(RegistroType::class, $registro);
+        $form->remove('referencia');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -44,13 +45,25 @@ class RegistroController extends AbstractController
             $entityManager->flush();
 
 
-            // Correos electrónicos
+            // Correo electrónico alumno
             $message = (new \Swift_Message('EMALCA 2020 - Registro'))
                 ->setFrom('webmaster@matmor.unam.mx')
                 ->setTo(array($registro->getCorreo() ))
 //            ->setTo('gerardo@matmor.unam.mx')
                 ->setBcc(array('gerardo@matmor.unam.mx'))
                 ->setBody($this->renderView('registro/confirmacion.txt.twig', 
+                    array('registro' => $registro)));
+
+            ;
+            $mailer->send($message);
+
+            // Correo electrónico profesor
+            $message = (new \Swift_Message('EMALCA 2020 - Recomendación'))
+                ->setFrom('webmaster@matmor.unam.mx')
+                ->setTo(array($registro->getprofesorCorreo() ))
+//            ->setTo('gerardo@matmor.unam.mx')
+                ->setBcc(array('gerardo@matmor.unam.mx'))
+                ->setBody($this->renderView('registro/referencia.txt.twig',
                     array('registro' => $registro)));
 
             ;
@@ -99,7 +112,7 @@ class RegistroController extends AbstractController
      * @Route("/{slug}/{correo}/ref", name="registro_ref",  methods={"GET","POST"})
      * @ParamConverter("registro", options={"exclude": {"correo"}})
      */
-    public function ref(Request $request, Registro $registro, $slug, $correo): Response
+    public function ref(Request $request, Registro $registro, $slug, $correo, \Swift_Mailer $mailer): Response
     {
         /*$registro = $this->getDoctrine()
             ->getRepository(Registro::class)
@@ -131,21 +144,35 @@ class RegistroController extends AbstractController
         $form->remove('profesorCorreo');
         $form->remove('historialFile');
         $form->remove('credencialFile');
+        $form->remove('motivos');
 
-
-
+        $tmp = $registro->getPorcentaje();
         $registro->setPorcentaje('0');
-
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
+            $registro->setPorcentaje($tmp);
             $registro->setModifiedAt(new \DateTime());
             $em->persist($registro);
 
             $this->getDoctrine()->getManager()->flush();
+
+            // Correos electrónico
+            $message = (new \Swift_Message('EMALCA 2020 - Recomendación recibida'))
+                ->setFrom('webmaster@matmor.unam.mx')
+                ->setTo(array($registro->getprofesorCorreo() ))
+                ->setCc($registro->getCorreo())
+//            ->setTo('gerardo@matmor.unam.mx')
+                ->setBcc(array('gerardo@matmor.unam.mx'))
+                ->setBody($this->renderView('registro/confirmacionRef.txt.twig',
+                    array('registro' => $registro)));
+
+            ;
+            $mailer->send($message);
+
 
             return $this->render('registro/confirmacionRef.html.twig',
                 array('id' => $registro->getId(), 'entity' => $registro));

@@ -61,6 +61,7 @@ class RegistroType extends AbstractType
             ])
             ->add('profesorInst')
             ->add('referencia',TextareaType::class)
+            ->add('motivos',TextareaType::class)
             ->add('profesorCorreo')
             ->add('credencialFile', VichFileType::class, array(
                 'required'=> false,

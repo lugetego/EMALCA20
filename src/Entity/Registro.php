@@ -134,9 +134,14 @@ class Registro
     private $pais;
 
     /**
-     * @ORM\Column(type="text", length=255)
+     * @ORM\Column(type="text",  nullable=true)
      */
     private $referencia;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $motivos;
 
 
     public function getSlug()
@@ -267,6 +272,18 @@ public function getReferencia(): ?string
     public function setReferencia(string $referencia): self
 {
     $this->referencia = $referencia;
+
+    return $this;
+}
+
+public function getMotivos(): ?string
+    {
+        return $this->motivos;
+    }
+
+    public function setmotivos(string $motivos): self
+{
+    $this->motivos = $motivos;
 
     return $this;
 }
@@ -412,11 +429,11 @@ public function getReferencia(): ?string
     $porcentaje = $this->porcentaje;
     $credencial = $this->credencialFile;
 
-    if ($porcentaje >= 50  && $credencial == null)
+    if ($porcentaje >= 50 && $porcentaje < 100  && $credencial == null)
     {
         return false;
     }
-    elseif ( $porcentaje == 0 )
+    elseif ( $porcentaje == 0 || $porcentaje == 100)
         return true;
     }
 
