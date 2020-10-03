@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 use Symfony\Component\Intl\Countries;
 
@@ -59,6 +60,7 @@ class RegistroType extends AbstractType
                 ,
             ])
             ->add('profesorInst')
+            ->add('referencia',TextareaType::class)
             ->add('profesorCorreo')
             ->add('credencialFile', VichFileType::class, array(
                 'required'=> false,

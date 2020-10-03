@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Registro{% endblock %}
+
+{% block body %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">{{ evento }} - Recomendación para {{ registro.nombre }} {{ registro.apaterno }}</a>
+    </div>
+</nav>
+
+<div class="mt-2 alert alert-secondary" role="alert">
+    <p><strong>Estimado profesor(a) {{ registro.profesorInst }},</strong></p>
+    <ul>
+        <li>Agradecemos su tiempo para enviar la información sobre la recomendación de su alumno <mark>{{ registro.nombre|title }}  {{ registro.apaterno|title }}</mark>.</li>
+        <li>Al finalizar el envío de este formulario debe de visualizar una pantalla de confirmación además de recibir
+            un correo electrónico a su cuenta y a la cuenta de correo del alumno que está recomendado,
+            de no ser así favor de comunicarse al correo <strong>webmaster<i class="fa fa-at"></i>matmor.unam.mx</strong> para asegurarse que se haya recibido su información.</li>
+        <li>Para enviar la información sobre la recomendación de su alumno
+            debe llenar el siguiente campo con un límite de 3000 caracteres.</li>
+    </ul>
+</div>
+
+    {{ form_start(form) }}
+
+{{ form_errors(form) }}
+<h4 class="text-secondary border-bottom my-4 pb-2">Recomendación</h4>
+
+<div class="row">
+    <div class="form-group col-md-12 col-sm-12">
+        {{ form_widget(form.referencia, {'attr': {
+            'class': 'form-control',
+            'id':'textbox',
+            'onkeyup':'charcountupdate(this.value)',
+            'rows':'5',
+        }}) }}
+        {{ form_errors(form.referencia) }}
+        <span id=charcount></span>
+    </div>
+
+
+    {#{{ form_widget(form) }}#}
+
+    <script type="application/javascript">
+        function charcountupdate(str) {
+            var lng = str.length;
+            document.getElementById("charcount").innerHTML = lng + ' de 3000 caracteres permitidos';
+        }
+    </script>
+
+
+</div>
+
+
+
+<button class="btn btn-primary">{{ button_label|default('Enviar') }}</button>
+{{ form_end(form) }}
+{% endblock %}
+
+

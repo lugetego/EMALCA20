@@ -5,10 +5,13 @@ namespace App\Controller;
 use App\Entity\Registro;
 use App\Form\RegistroType;
 use App\Repository\RegistroRepository;
+use Metadata\Tests\Driver\Fixture\A\A;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 
 
 /**
@@ -87,6 +90,68 @@ class RegistroController extends AbstractController
         }
 
         return $this->render('registro/edit.html.twig', [
+            'registro' => $registro,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{slug}/{correo}/ref", name="registro_ref",  methods={"GET","POST"})
+     * @ParamConverter("registro", options={"exclude": {"correo"}})
+     */
+    public function ref(Request $request, Registro $registro, $slug, $correo): Response
+    {
+        /*$registro = $this->getDoctrine()
+            ->getRepository(Registro::class)
+            ->findOneBy(['slug'=> $slug]);*/
+
+
+
+        if( $registro->getCorreo() == $registro->getprofesorCorreo() ||  $correo != $registro->getCorreo() || $slug != $registro->getSlug()){
+
+            throw $this->createNotFoundException('Existe algún problema con la información de registro favor de contactar a webmaster@matmor.unam.mx'.
+                $registro->getCorreo()."=".$correo.'s'.$registro->getprofesorCorreo().'\bn'.".".$slug.".".$registro->getSlug()
+            );
+        }
+
+      /*  if( $registro->getCartaName() != null || $registro->getRecomendacion() != null)
+        {
+            return $this->render('form/confirmCarta.html.twig', array('id' => $registro->getId(),'entity'=>$registro));
+        }*/
+
+        $form = $this->createForm(RegistroType::class, $registro);
+        $form->remove('nombre');
+        $form->remove('apaterno');
+        $form->remove('genero');
+        $form->remove('correo');
+        $form->remove('pais');
+        $form->remove('institucion');
+        $form->remove('profesorInst');
+        $form->remove('porcentaje');
+        $form->remove('profesorCorreo');
+        $form->remove('historialFile');
+        $form->remove('credencialFile');
+
+
+
+        $registro->setPorcentaje('0');
+
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            $registro->setModifiedAt(new \DateTime());
+            $em->persist($registro);
+
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->render('registro/confirmacionRef.html.twig',
+                array('id' => $registro->getId(), 'entity' => $registro));
+        }
+
+        return $this->render('registro/referencia.html.twig', [
             'registro' => $registro,
             'form' => $form->createView(),
         ]);
