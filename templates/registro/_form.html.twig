@@ -5,13 +5,13 @@
 </nav>
 
 <div class="mt-2 alert alert-secondary" role="alert">
-    <p><strong>Importante</strong></p>
+    <p><strong><i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            Importante</strong></p>
     <ul>
-        <li>Todos los campos en este formulario son obligatorios.</li>
         <li>Asegúrate de escribir correctamente tu correo electrónico ya que te enviaremos
             un correo que te confirmará que hemos recibido tu registro.</li>
         <li>En caso de que no recibas el correo de confirmación debes escribir al correo
-            webmaster<i class="fa     fa-at"></i>matmor.unam.mx para verificar que hayamos recibido tu información.</li>
+            <strong>webmaster<i class="fa fa-at"></i>matmor.unam.mx</strong> para verificar que hayamos recibido tu información.</li>
     </ul>
 </div>
 
@@ -63,19 +63,30 @@
         {{ form_widget(form.porcentaje, {'attr': {'class': 'form-control'}}) }}
         {{ form_errors(form.porcentaje) }}
     </div>
+</div>
+
+<div class="row">
+
+    <div class="col-md-12" >
+        <div class="alert alert-dismissable alert-warning">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            Asegúrate de escribir correctamente la dirección de correo de tu profesor
+            ya que le enviaremos instrucciones para que podamos recibir la recomendación que haga sobre ti.
+        </div>
+    </div>
     <div class="form-group col-md-8 col-sm-12">
-        <label for="inputProfesorInst">Profesor que lo recomienda</label>
+        <label for="inputProfesorInst">Profesor que te recomienda</label>
         {{ form_widget(form.profesorInst, {'attr': {'class': 'form-control'}}) }}
         {{ form_errors(form.profesorInst) }}
     </div>
     <div class="form-group col-md-4 col-sm-12">
-        <label for="inputProfesorCorreo">Correo del profesor que lo recomienda</label>
+        <label for="inputProfesorCorreo">Correo del profesor que te recomienda</label>
         {{ form_widget(form.profesorCorreo, {'attr': {'class': 'form-control'}}) }}
         {{ form_errors(form.profesorCorreo) }}
     </div>
     <div class="col-md-12" >
         <div class="alert alert-dismissable alert-warning">
-            <span class="glyphicon glyphicon-exclamation-sign"></span>
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
             Los archivos que selecciones debe estar en formato <i class="fa fa-file-pdf-o"></i>
             PDF y tener un tamaño menor a 2MB.
         </div>

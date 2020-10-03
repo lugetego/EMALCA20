@@ -127,10 +127,11 @@ class RegistroController extends AbstractController
             );
         }
 
-      /*  if( $registro->getCartaName() != null || $registro->getRecomendacion() != null)
+        if( $registro->getReferencia() != null)
         {
-            return $this->render('form/confirmCarta.html.twig', array('id' => $registro->getId(),'entity'=>$registro));
-        }*/
+            return $this->render('registro/confirmacionRef.html.twig',
+                array('registro'=>$registro));
+        }
 
         $form = $this->createForm(RegistroType::class, $registro);
         $form->remove('nombre');
