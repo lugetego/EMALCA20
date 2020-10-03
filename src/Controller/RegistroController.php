@@ -156,7 +156,7 @@ class RegistroController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
             $registro->setPorcentaje($tmp);
-            $registro->setModifiedAt(new \DateTime());
+            $registro->setSentAt(new \DateTime());
             $em->persist($registro);
 
             $this->getDoctrine()->getManager()->flush();
@@ -184,6 +184,69 @@ class RegistroController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * Displays a form to edit an existing Referencia entity.
+     *
+     * @Route("/{slug}/evaluacion", name="registro_eval",  methods={"GET","POST"})
+     */
+
+    public function eval(Request $request, Registro $registro, $slug): Response
+    {
+
+      /*  $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('AppBundle:Registro')->find($registro);*/
+
+        $formEval = $this->createFormBuilder($registro)
+
+            ->add('aceptado','Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(
+                'choices'  => array(
+                    'Si' => true,
+                    'No' => false,
+                ),
+                'expanded'=>true,
+                'required'=>false,
+                'placeholder'=>false,
+            ))
+            ->add('confirmado','Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(
+                'choices'  => array(
+                    'Si' => true,
+                    'No' => false,
+                ),
+                'expanded'=>true,
+                'required'=>false,
+                'placeholder'=>false,
+            ))
+            ->add('comentarios', 'Symfony\Component\Form\Extension\Core\Type\TextareaType',  array(
+                'label' => 'Comentarios',
+                'required'=>false,
+
+            ))
+
+            ->getForm();
+
+        $tmp = $registro->getPorcentaje();
+        $registro->setPorcentaje('0');
+
+        $formEval->handleRequest($request);
+
+        if ($formEval->isSubmitted() && $formEval->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $registro->setPorcentaje($tmp);
+            $em->persist($registro);
+            $em->flush();
+            return $this->redirectToRoute('registro_show', array('slug' => $registro->getSlug()));
+
+        }
+        // $form   = $this->createForm($formEval, $entity);
+        return $this->render('registro/eval.html.twig',
+            array('registro' => $formEval->createView(),
+                'slug'=> $registro->getSlug()));
+        //return $this->redirect($this->generateUrl('registro_show', array('id' => $id)));
+
+    }
+
+
 
     /**
      * @Route("/{id}", name="registro_delete", methods={"DELETE"})

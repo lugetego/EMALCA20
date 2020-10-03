@@ -129,6 +129,13 @@ class Registro
     private $modifiedAt;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="sentAt", type="datetime", nullable=true)
+     */
+    private $sentAt;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $pais;
@@ -142,6 +149,23 @@ class Registro
      * @ORM\Column(type="text", nullable=true)
      */
     private $motivos;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $aceptado;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $confirmado;
+
+    /**
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $comentarios;
+
 
 
     public function getSlug()
@@ -281,12 +305,49 @@ public function getMotivos(): ?string
         return $this->motivos;
     }
 
-    public function setmotivos(string $motivos): self
+    public function setMotivos(string $motivos): self
 {
     $this->motivos = $motivos;
 
     return $this;
 }
+
+ public function getAceptado(): ?bool
+    {
+        return $this->aceptado;
+    }
+
+    public function setAceptado(bool $aceptado): self
+{
+    $this->aceptado = $aceptado;
+
+    return $this;
+}
+
+ public function getConfirmado(): ?bool
+    {
+        return $this->confirmado;
+    }
+
+    public function setConfirmado(bool $confirmado): self
+{
+    $this->confirmado = $confirmado;
+
+    return $this;
+}
+
+public function getComentarios(): ?string
+    {
+        return $this->comentarios;
+    }
+
+    public function setComentarios(string $comentarios): self
+{
+    $this->comentarios = $comentarios;
+
+    return $this;
+}
+
 
 
  /**
@@ -398,6 +459,31 @@ public function getMotivos(): ?string
 {
     $this->modifiedAt = $modifiedAt;
 }
+
+/**
+ * Set sentAt
+ *
+ * @param \DateTime $sentAt
+ *
+ * @return Registro
+ */
+    public function setSentAt($sentAt)
+{
+    $this->sentAt = $sentAt;
+
+    return $this;
+}
+
+    /**
+     * Get sentAt
+     *
+     * @return \DateTime
+     */
+    public function getSentAt()
+{
+    return $this->sentAt;
+}
+
 /**
  * @ORM\PrePersist
  */
@@ -420,7 +506,7 @@ public function getMotivos(): ?string
 
 /**
  * @Assert\IsTrue(message = "Si tu porcentaje de avance de licenciatura es menor al 100% es
-   necesario que nos envies tu credencial que compruebe que actualmente estás inscrito."))
+necesario que nos envies tu credencial que compruebe que actualmente estás inscrito."))
  */
     public function isPorcentajeValid()
 
@@ -435,7 +521,7 @@ public function getMotivos(): ?string
     }
     elseif ( $porcentaje == 0 || $porcentaje == 100)
         return true;
-    }
+}
 
 
 }

@@ -1,0 +1,68 @@
+{% block body %}
+
+<div class="container">
+    {{ form_start(registro, {'action': path('registro_eval', {'slug':slug}), 'method': 'POST'}) }}
+
+    <div class="card">
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <div>
+                                {{ form_label(registro.aceptado) }}
+                            </div>
+                            <div>
+                                {% spaceless %}
+                                    {% for child in registro.aceptado %}
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            {{ form_widget(child,{'attr':{'class':'custom-control-input'}}) }}
+                                            {{ form_label(child, null, {'label_attr': {'class': 'custom-control-label'}}) }}
+                                        </div>
+                                    {% endfor %}
+                                {% endspaceless %}
+                            </div>
+                            <div>{{ form_errors(registro.aceptado) }}</div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-6">
+
+                        <div class="form-group">
+                            <div>
+                                {{ form_label(registro.confirmado) }}
+                            </div>
+                            <div>
+                                {% spaceless %}
+                                    {% for child in registro.confirmado %}
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            {{ form_widget(child,{'attr':{'class':'custom-control-input'}}) }}
+                                            {{ form_label(child, null, {'label_attr': {'class': 'custom-control-label'}}) }}
+                                        </div>
+                                    {% endfor %}
+                                {% endspaceless %}
+                            </div>
+                            <div>{{ form_errors(registro.confirmado) }}</div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group ">
+                            {{ form_label(registro.comentarios) }}
+                            {{ form_widget(registro.comentarios, {'attr': {'class': 'form-control', 'rows':'4'}}) }}
+                        </div>
+                    </div>
+
+                </div>
+                <button type="submit"  class="btn btn-primary">Guardar</button>
+                {{ form_rest(registro) }}
+            </div>
+        </div>
+
+
+
+    {{ form_end(registro) }}
+
+
+</div>
+{% endblock %}

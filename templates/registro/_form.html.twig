@@ -20,7 +20,6 @@
 {{ form_errors(form) }}
 <h4 class="text-secondary border-bottom my-4 pb-2">Información personal</h4>
 <div class="row">
-
     <div class="form-group col-md-4 col-sm-12">
         <label for="inputNombres">Nombre(s)</label>
         {{ form_widget(form.nombre, {'attr': {'class': 'form-control'}}) }}
@@ -36,14 +35,11 @@
         {{ form_widget(form.genero, {'attr': {'class': 'form-control'}}) }}
         {{ form_errors(form.genero) }}
     </div>
-
     <div class="form-group col-md-4 col-sm-12">
         {{ form_label(form.correo) }}
         {{ form_widget(form.correo, {'attr': {'class': 'form-control'}}) }}
         {{ form_errors(form.correo) }}
     </div>
-
-
     <div class="form-group col-md-4 col-sm-12">
         <label for="inputPais">País de residencia</label>
         {{ form_widget(form.pais, {'attr': {'class': 'form-control'}}) }}
@@ -66,7 +62,6 @@
 </div>
 
 <div class="row">
-
     <div class="col-md-12" >
         <div class="alert alert-dismissable alert-warning">
             <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
@@ -101,8 +96,6 @@
         {{ form_widget(form.historialFile) }}
         {{ form_errors(form.historialFile) }}
     </div>
-
-    {#{{ form_widget(form) }}#}
 </div>
 
 <h4 class="text-secondary border-bottom my-4 pb-2">EMALCA 2020</h4>
@@ -118,17 +111,13 @@
         {{ form_errors(form.motivos) }}
         <span id=charcount></span>
     </div>
-
-
     {#{{ form_widget(form) }}#}
-
     <script type="application/javascript">
         function charcountupdate(str) {
             var lng = str.length;
             document.getElementById("charcount").innerHTML = lng + ' de 1500 caracteres permitidos';
         }
     </script>
-
 </div>
 
 <button class="btn btn-primary">{{ button_label|default('Enviar') }}</button>
