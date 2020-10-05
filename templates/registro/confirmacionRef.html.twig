@@ -6,11 +6,12 @@
     </div>
 
     <div class="alert alert-success">
-        <strong>!Su recomendación se registró exitosamente!</strong>
+        <strong><i class="fa fa-check-circle" aria-hidden="true"></i> !Su recomendación se registró exitosamente!</strong>
     </div>
     {% if registro is not defined %}
-        <p class="lead mt-5">Recibirá un correo de confirmación.</p>
+        <p class="lead mt-5"><i class="fa fa-envelope" aria-hidden="true"></i> Recibirá un correo de confirmación.</p>
     {% endif %}
-    <a class="btn btn-primary" href="https://matmor.unam.mx/EMALCA20" role="button">Continuar al sitio web</a>
+    <a class="btn btn-primary" href="https://matmor.unam.mx/EMALCA20" role="button">
+        <i class="fa fa-external-link" aria-hidden="true"></i>Continuar al sitio web</a>
 
 {% endblock %}

@@ -22,22 +22,22 @@
 <div class="row">
     <div class="form-group col-md-4 col-sm-12">
         <label for="inputNombres">Nombre(s)</label>
-        {{ form_widget(form.nombre, {'attr': {'class': 'form-control'}}) }}
+        {{ form_widget(form.nombre, {'attr': {'class': 'form-control', 'placeholder':'Nombre(s)'}}) }}
         {{ form_errors(form.nombre) }}
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label for="inputPaterno">Apellido(s)</label>
-        {{ form_widget(form.apaterno, {'attr': {'class': 'form-control'}}) }}
+        {{ form_widget(form.apaterno, {'attr': {'class': 'form-control', 'placeholder':'Apeliido(s)'}}) }}
         {{ form_errors(form.apaterno) }}
     </div>
     <div class="form-group col-md-2 col-sm-12">
         {{ form_label(form.genero) }}
-        {{ form_widget(form.genero, {'attr': {'class': 'form-control'}}) }}
+        {{ form_widget(form.genero, {'attr': {'class': 'form-control',}}) }}
         {{ form_errors(form.genero) }}
     </div>
     <div class="form-group col-md-4 col-sm-12">
         {{ form_label(form.correo) }}
-        {{ form_widget(form.correo, {'attr': {'class': 'form-control'}}) }}
+        {{ form_widget(form.correo, {'attr': {'class': 'form-control', 'placeholder':'Dirección de correo'}}) }}
         {{ form_errors(form.correo) }}
     </div>
     <div class="form-group col-md-4 col-sm-12">
@@ -51,7 +51,7 @@
 <div class="row">
     <div class="form-group col-md-8 col-sm-12">
         <label for="inputInstitucion">Institución de procedencia</label>
-        {{ form_widget(form.institucion, {'attr': {'class': 'form-control'}}) }}
+        {{ form_widget(form.institucion, {'attr': {'class': 'form-control', 'placeholder':'Institución'}}) }}
         {{ form_errors(form.institucion) }}
     </div>
     <div class="form-group col-md-4 col-sm-12">
@@ -71,12 +71,12 @@
     </div>
     <div class="form-group col-md-8 col-sm-12">
         <label for="inputProfesorInst">Profesor que te recomienda</label>
-        {{ form_widget(form.profesorInst, {'attr': {'class': 'form-control'}}) }}
+        {{ form_widget(form.profesorInst, {'attr': {'class': 'form-control', 'placeholder':'Nombre del profesor'}}) }}
         {{ form_errors(form.profesorInst) }}
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label for="inputProfesorCorreo">Correo del profesor que te recomienda</label>
-        {{ form_widget(form.profesorCorreo, {'attr': {'class': 'form-control'}}) }}
+        {{ form_widget(form.profesorCorreo, {'attr': {'class': 'form-control', 'placeholder':'Dirección de correo'}}) }}
         {{ form_errors(form.profesorCorreo) }}
     </div>
     <div class="col-md-12" >
@@ -107,6 +107,7 @@
             'id':'textbox',
             'onkeyup':'charcountupdate(this.value)',
             'rows':'5',
+            'placeholder':'Escribe los motivos por los que te interesa participar en EMALCA 2020, tienes hasta 1500 caracteres.'
         }}) }}
         {{ form_errors(form.motivos) }}
         <span id=charcount></span>

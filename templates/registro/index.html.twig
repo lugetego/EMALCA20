@@ -9,12 +9,65 @@
 
 {% block body %}
 
-<div class="container-fluid">
-    <h4 class="my-4 text-secondary">Lista de registros</h4>
+    <div class="container-fluid">
+
+        <h4 class="my-4 text-secondary">{{ registros|length }} solicitudes</h4>
+
+        {% set recomendados, evaluados, aceptados, confirmados  = 0,0,0,0 %}
+        {% for registro in registros %}
+            {% if registro.referencia != null %}
+                {% set recomendados = recomendados + 1  %}
+            {%  endif%}
+            {% if registro.aceptado != null or registro.confirmado != null or registro.comentarios != null %}
+                {% set evaluados = evaluados + 1  %}
+            {%  endif%}
+            {% if registro.aceptado == true  %}
+                {% set aceptados = aceptados + 1  %}
+            {%  endif%}
+            {% if registro.confirmado == true  %}
+                {% set confirmados = confirmados + 1  %}
+            {%  endif%}
+        {% endfor %}
 
 
-    <table id="registry" class="table table-sm table-striped table-bordered" cellspacing="0" width="100%">
-        <thead>
+        <div class="row">
+            <div class="col-3">
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Recomendados
+                        <span class="badge badge-primary badge-pill">{{ recomendados }}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-3">
+                <ul>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Evaluados
+                        <span class="badge badge-primary badge-pill">{{ evaluados }}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-3">
+                <ul>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Aceptados
+                        <span class="badge badge-primary badge-pill">{{ aceptados }}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-3">
+                <ul>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Confirmados
+                        <span class="badge badge-primary badge-pill">{{ confirmados }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <table id="registry" class="table table-sm table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
             <tr>
                 <th>Id</th>
                 <th>Nombre</th>
@@ -27,30 +80,31 @@
                 <th>Correo</th>
                 <th>&nbsp;</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for registro in registros %}
-            <tr>
-                <td><a href="{{ path('registro_show', {'slug': registro.slug}) }}">{{ registro.slug }}</a></td>
-                <td>{{ registro.nombre }}</a></td>
-                <td>{{ registro.apaterno }}</td>
-                <td>{{ registro.institucion }}</td>
-                <td>{{ registro.genero ? 'Masculino' : 'Femenino' }}</td>
-                <td>{{ registro.correo }}</td>
-                <td>{{ registro.porcentaje }}%</td>
-                <td>{{ registro.profesorInst }}</td>
-                <td>{{ registro.profesorCorreo }}</td>
-                <td>
-                    <a href="{{ path('registro_show', {'slug': registro.slug}) }}">Ver</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="10">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for registro in registros %}
+                <tr>
+                    <td><a href="{{ path('registro_show', {'slug': registro.slug}) }}">{{ registro.slug }}</a></td>
+                    <td>{{ registro.nombre }}</a></td>
+                    <td>{{ registro.apaterno }}</td>
+                    <td>{{ registro.institucion }}</td>
+                    <td>{{ registro.genero ? 'Masculino' : 'Femenino' }}</td>
+                    <td>{{ registro.correo }}</td>
+                    <td>{{ registro.porcentaje }}%</td>
+                    <td>{{ registro.profesorInst }}</td>
+                    <td>{{ registro.profesorCorreo }}</td>
+                    <td>
+                        <a href="{{ path('registro_show', {'slug': registro.slug}) }}"><i class="fa fa-search-plus" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="10">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
     </div>
 

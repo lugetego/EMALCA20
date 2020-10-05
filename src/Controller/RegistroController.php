@@ -122,9 +122,7 @@ class RegistroController extends AbstractController
 
         if( $registro->getCorreo() == $registro->getprofesorCorreo() ||  $correo != $registro->getCorreo() || $slug != $registro->getSlug()){
 
-            throw $this->createNotFoundException('Existe algún problema con la información de registro favor de contactar a webmaster@matmor.unam.mx'.
-                $registro->getCorreo()."=".$correo.'s'.$registro->getprofesorCorreo().'\bn'.".".$slug.".".$registro->getSlug()
-            );
+            throw $this->createNotFoundException('Existe algún problema con la información de registro favor de contactar a webmaster@matmor.unam.mx');
         }
 
         if( $registro->getReferencia() != null)
@@ -220,6 +218,7 @@ class RegistroController extends AbstractController
             ->add('comentarios', 'Symfony\Component\Form\Extension\Core\Type\TextareaType',  array(
                 'label' => 'Comentarios',
                 'required'=>false,
+                'empty_data' => ''
 
             ))
 

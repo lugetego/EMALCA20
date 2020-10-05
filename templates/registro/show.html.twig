@@ -52,7 +52,7 @@
                         </div>
                         <div class="col-8">
                             <h5 class="card-title">Motivos para participar</h5>
-                            <p class="card-text text-justify">{{ registro.motivos }}</p>
+                            <p class="card-text text-justify"><em>{{ registro.motivos }}</em></p>
                         </div>
                     </div>
                     <hr>
@@ -72,6 +72,52 @@
                                     <small>{{ registro.profesorCorreo }}</small>
                                 </h5>
                             {% endif %}
+                        </div>
+                    </div>
+                    <hr>
+                    <h5 class="card-title">Evaluación de solicitud</h5>
+                    <div class="row">
+                        <div class="col-3">
+                            {% if registro.aceptado == true %}
+                                <p class="text-success">
+                                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                    Aceptado
+                                </p>
+                            {% elseif  registro.aceptado is null %}
+                                <p class="text-secondary">
+                                    <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                    Aún no ha sido aceptado
+                                </p>
+                            {% elseif registro.aceptado == 0 %}
+                                <p class="text-danger">
+                                    <i class="fa fa-times-circle" aria-hidden="true"></i>
+                                    No aceptado
+                                </p>
+                            {% endif %}
+                        </div>
+                        <div class="col-3">
+                            {% if registro.confirmado == true %}
+                                <p class="text-success">
+                                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                    Confirmado
+                                </p>
+                            {% elseif  registro.confirmado is null %}
+                                <p class="text-secondary">
+                                    <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                    Aún no ha sido confirmado
+                                </p>
+                            {% elseif registro.confirmado == 0 %}
+                                <p class="text-danger">
+                                    <i class="fa fa-times-circle" aria-hidden="true"></i>
+                                    No confirmado
+                                </p>
+                            {% endif %}
+                        </div>
+                        <div class="col-12">
+                            <p class="card-text text-justify">
+                                <em>{{ registro.comentarios }}</em>
+                            </p>
+                            <small><em>Modificado: {{ registro.modifiedAt|date }}</em></small>
                         </div>
                     </div>
                     <button type="button" class="btn btn-primary btn-xs pull-right" data-toggle="modal" data-target="#evalModal">
