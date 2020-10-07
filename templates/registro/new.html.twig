@@ -3,8 +3,21 @@
 
 {% block title %}Registro{% endblock %}
 {% block body %}
+
     <div class="container">
-    {{ include('registro/_form.html.twig') }}
+        <div class="hero-image">
+            <div class="container">
+                <div class="hero-text text-left">
+                    <div class="mb-4">
+                        <img class="logo-emalca" src="{{ asset("img/logoemalca.png") }}" width="500px">
+                    </div>
+                    <h2>Escuela de Matemáticas de América Latina y el Caribe</h2>
+                    <h4 class="mt-4">Formulario de registro</h4>
+                </div>
+            </div>
+        </div>
+
+        {{ include('registro/_form.html.twig') }}
     </div>
 {% endblock %}
 
