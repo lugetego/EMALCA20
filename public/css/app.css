@@ -9,7 +9,7 @@ body {
 }
 
 .hero-image {
-    background: url(../img/banner1.j) no-repeat center;
+    background: url(http://tic.matmor.unam.mx/emalca20/img/banner1.jpg) no-repeat center;
     background-size: cover;
     background-position: center;
     position: relative;
