@@ -9,12 +9,12 @@ vich_uploader:
         # ...
     mappings:
         emalca20_credencial:
-          uri_prefix:         /submissions
+          uri_prefix:         /emalca20/submissions
           upload_destination: '%kernel.root_dir%/../public/submissions'
           namer:              vich_uploader.namer_uniqid
 
         emalca20_historial:
-          uri_prefix:         /submissions
+          uri_prefix:         /emalca20/submissions
           upload_destination: '%kernel.root_dir%/../public/submissions'
           namer:              vich_uploader.namer_uniqid
 
