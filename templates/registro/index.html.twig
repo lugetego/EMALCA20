@@ -8,102 +8,203 @@
 {% block title %}Registros{% endblock %}
 
 {% block body %}
+    {% if app.user and is_granted('ROLE_ADMIN') %}
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="#">{{ evento }}</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#" data-toggle="modal" data-target=".bd-example-modal-lg"> <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                 Aceptados <span class="sr-only">(current)</span></a>
+                        </li>
+
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#" data-toggle="modal" data-target="#modal2" data-target=".bd-example-modal-lg"> <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                 No aceptados <span class="sr-only">(current)</span></a>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+                        <a class="nav-item nav-link active" href="{{ path('app_logout') }}"><i class="fa fa-sign-out"></i> Salir </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    {% endif %}
 
 
-        <h4 class="my-4 text-secondary">{{ registros|length }} solicitudes</h4>
 
-        {% set recomendados, evaluados, aceptados, confirmados  = 0,0,0,0 %}
+    <h4 class="my-4 text-secondary">{{ registros|length }} solicitudes</h4>
+
+    {% set recomendados, evaluados, aceptados, noaceptados, confirmados  = 0,0,0,0,0 %}
+    {% set correoaceptados =[] %}
+    {% set correonoaceptados =[] %}
+
+
+    {% for registro in registros %}
+        {% if registro.referencia != null %}
+            {% set recomendados = recomendados + 1  %}
+        {%  endif%}
+        {% if registro.aceptado != null or registro.confirmado != null or registro.comentarios != null %}
+            {% set evaluados = evaluados + 1  %}
+        {%  endif%}
+        {% if registro.aceptado == true  %}
+            {% set aceptados = aceptados + 1  %}
+        {%  endif%}
+        {% if registro.confirmado == true  %}
+            {% set confirmados = confirmados + 1  %}
+        {%  endif%}
+        {% set noaceptados = registro|length - aceptados %}
+        {% if registro.aceptado == true %}
+            {% set correoaceptados = correoaceptados|merge([registro.correo])  %}
+        {% endif %}
+        {% if registro.aceptado == false or registro.aceptado == null %}
+            {% set correonoaceptados = correonoaceptados|merge([registro.correo])  %}
+        {% endif %}
+    {% endfor %}
+
+
+    <div class="row">
+        <div class="col-3">
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Recomendados
+                    <span class="badge badge-primary badge-pill">{{ recomendados }}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-3">
+            <ul>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Evaluados
+                    <span class="badge badge-primary badge-pill">{{ evaluados }}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-3">
+            <ul>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{{ path('registro_aceptados') }}"><i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                        Aceptados</a>
+                    <span class="badge badge-primary badge-pill">{{ aceptados }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{{ path('registro_noaceptados') }}"><i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                        No aceptados</a>
+                    <span class="badge badge-primary badge-pill">{{ aceptados }}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-3">
+            <ul>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Confirmados
+                    <span class="badge badge-primary badge-pill">{{ confirmados }}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <table id="registry" class="table table-sm table-striped table-bordered table-hover" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Apaterno</th>
+            <th>Institución</th>
+            <th>Género</th>
+            <th>Correo</th>
+            <th>Avance</th>
+            <th>Profesor</th>
+            <th>Correo</th>
+            <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
         {% for registro in registros %}
-            {% if registro.referencia != null %}
-                {% set recomendados = recomendados + 1  %}
-            {%  endif%}
-            {% if registro.aceptado != null or registro.confirmado != null or registro.comentarios != null %}
-                {% set evaluados = evaluados + 1  %}
-            {%  endif%}
-            {% if registro.aceptado == true  %}
-                {% set aceptados = aceptados + 1  %}
-            {%  endif%}
-            {% if registro.confirmado == true  %}
-                {% set confirmados = confirmados + 1  %}
-            {%  endif%}
+            <tr>
+                <td><a href="{{ path('registro_show', {'slug': registro.slug}) }}">{{ registro.slug }}</a></td>
+                <td>{{ registro.nombre }}</a></td>
+                <td>{{ registro.apaterno }}</td>
+                <td>{{ registro.institucion }}</td>
+                <td>{{ registro.genero }}</td>
+                <td>{{ registro.correo }}</td>
+                <td>{{ registro.porcentaje }}%</td>
+                <td>{{ registro.profesorInst }}</td>
+                <td>{{ registro.profesorCorreo }}</td>
+                <td>
+                    <a href="{{ path('registro_show', {'slug': registro.slug}) }}"><i class="fa fa-search-plus" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
         {% endfor %}
+        </tbody>
+    </table>
 
-
-        <div class="row">
-            <div class="col-3">
-                <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Recomendados
-                        <span class="badge badge-primary badge-pill">{{ recomendados }}</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-3">
-                <ul>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Evaluados
-                        <span class="badge badge-primary badge-pill">{{ evaluados }}</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-3">
-                <ul>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Aceptados
-                        <span class="badge badge-primary badge-pill">{{ aceptados }}</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-3">
-                <ul>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Confirmados
-                        <span class="badge badge-primary badge-pill">{{ confirmados }}</span>
-                    </li>
-                </ul>
+    <!-- Aceptados modal -->
+    <div class="modal fade bd-example-modal-lg"  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ correoaceptados|length }} correos de alumnos aceptados</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        {% for correo in correoaceptados %}
+                            {{ correo }}
+                            {{ not loop.last ? ',' }}
+                        {% endfor %}
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
             </div>
         </div>
+    </div>
+
+    <!-- No aceptados modal -->
+    <div class="modal fade bd-example-modal-lg" id="modal2" tabindex="-1" role="dialog" aria-labelledby="myLargeModal2Label" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ noaceptados|length }} correos de alumnos no aceptados</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        {% for correo in correonoaceptados %}
+                            {{ correo }}
+                            {{ not loop.last ? ',' }}
+                        {% endfor %}
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-        <table id="registry" class="table table-sm table-striped table-bordered table-hover" cellspacing="0" width="100%">
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>Apaterno</th>
-                <th>Institución</th>
-                <th>Género</th>
-                <th>Correo</th>
-                <th>Avance</th>
-                <th>Profesor</th>
-                <th>Correo</th>
-                <th>&nbsp;</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for registro in registros %}
-                <tr>
-                    <td><a href="{{ path('registro_show', {'slug': registro.slug}) }}">{{ registro.slug }}</a></td>
-                    <td>{{ registro.nombre }}</a></td>
-                    <td>{{ registro.apaterno }}</td>
-                    <td>{{ registro.institucion }}</td>
-                    <td>{{ registro.genero }}</td>
-                    <td>{{ registro.correo }}</td>
-                    <td>{{ registro.porcentaje }}%</td>
-                    <td>{{ registro.profesorInst }}</td>
-                    <td>{{ registro.profesorCorreo }}</td>
-                    <td>
-                        <a href="{{ path('registro_show', {'slug': registro.slug}) }}"><i class="fa fa-search-plus" aria-hidden="true"></i>
-                        </a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="10">no records found</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
 
 
 {% endblock %}

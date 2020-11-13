@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Doctrine\Common\Collections\Criteria;
+
 
 
 
@@ -51,7 +53,7 @@ class RegistroController extends AbstractController
                 ->setTo(array($registro->getCorreo() ))
 //            ->setTo('gerardo@matmor.unam.mx')
                 ->setBcc(array('gerardo@matmor.unam.mx'))
-                ->setBody($this->renderView('registro/confirmacion.txt.twig', 
+                ->setBody($this->renderView('registro/confirmacion.txt.twig',
                     array('registro' => $registro)));
 
             ;
@@ -192,8 +194,8 @@ class RegistroController extends AbstractController
     public function eval(Request $request, Registro $registro, $slug): Response
     {
 
-      /*  $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('AppBundle:Registro')->find($registro);*/
+        /*  $em = $this->getDoctrine()->getManager();
+          $entity = $em->getRepository('AppBundle:Registro')->find($registro);*/
 
         $formEval = $this->createFormBuilder($registro)
 
@@ -259,5 +261,75 @@ class RegistroController extends AbstractController
         }
 
         return $this->redirectToRoute('registro_index');
+    }
+
+
+    /**
+     * @Route("/export/aceptados", name="registro_aceptados",  methods={"GET","POST"})
+     **/
+    public function csvAceptados()
+    {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $events = $em->getRepository(Registro::class)->findBy(
+            ['aceptado' => true],
+            ['id' => 'ASC']
+
+        );
+
+        $rows = array();
+
+        $data = array('Nombre','Apellido','Correo');
+        $rows[] = implode(',', $data);
+
+        foreach ($events as $event) {
+            $data = array($event->getNombre(), $event->getApaterno(), $event->getCorreo());
+            $rows[] = implode(',', $data);
+        }
+
+        $content = implode("\n", $rows);
+        $response = new Response($content);
+
+        $response->headers->set('Content-Type', 'text/csv');
+
+        return $response;
+
+
+    }
+
+    /**
+     * @Route("/export/noaceptados", name="registro_noaceptados",  methods={"GET","POST"})
+     **/
+    public function csvNoAceptados()
+    {
+
+        $em = $this->getDoctrine()->getManager();
+
+
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('aceptado', false))
+            ->orWhere(Criteria::expr()->eq('aceptado', null));
+
+        $events = $em->getRepository(Registro::class)->matching($criteria);
+
+        $rows = array();
+
+        $data = array('Nombre','Apellido','Correo');
+        $rows[] = implode(',', $data);
+
+        foreach ($events as $event) {
+            $data = array($event->getNombre(), $event->getApaterno(), $event->getCorreo());
+            $rows[] = implode(',', $data);
+        }
+
+        $content = implode("\n", $rows);
+        $response = new Response($content);
+
+        $response->headers->set('Content-Type', 'text/csv');
+
+        return $response;
+
+
     }
 }
