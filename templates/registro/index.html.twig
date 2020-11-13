@@ -62,7 +62,7 @@
         {% if registro.confirmado == true  %}
             {% set confirmados = confirmados + 1  %}
         {%  endif%}
-        {% set noaceptados = registro|length - aceptados %}
+        {% set noaceptados = registros|length - aceptados %}
         {% if registro.aceptado == true %}
             {% set correoaceptados = correoaceptados|merge([registro.correo])  %}
         {% endif %}
