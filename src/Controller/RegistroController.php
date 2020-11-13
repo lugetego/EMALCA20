@@ -326,7 +326,8 @@ class RegistroController extends AbstractController
         $content = implode("\n", $rows);
         $response = new Response($content);
 
-        $response->headers->set('Content-Type', 'text/csv');
+
+        $response->headers->set('Content-Type', 'text/csv ; charset=UTF-8');
 
         return $response;
 

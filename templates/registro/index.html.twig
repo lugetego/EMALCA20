@@ -191,8 +191,8 @@
                 </div>
                 <div class="modal-body">
                     <p>
-                        {% for correo in correonoaceptados %}
-                            {{ correo }}
+                        {% for nocorreo in correonoaceptados %}
+                            {{ nocorreo }}
                             {{ not loop.last ? ',' }}
                         {% endfor %}
                     </p>
