@@ -270,6 +270,8 @@ class RegistroController extends AbstractController
     public function csvAceptados()
     {
 
+        $file = "aceptados.txt" ;
+
         $em = $this->getDoctrine()->getManager();
 
         $events = $em->getRepository(Registro::class)->findBy(
@@ -291,7 +293,8 @@ class RegistroController extends AbstractController
         $content = implode("\n", $rows);
         $response = new Response($content);
 
-        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Type', 'application/txt');
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . basename($file) . '";');
 
         return $response;
 
@@ -331,7 +334,6 @@ class RegistroController extends AbstractController
 
 
         $response->headers->set('Content-Type', 'application/txt');
-
         $response->headers->set('Content-Disposition', 'attachment; filename="' . basename($file) . '";');
 
         return $response;
