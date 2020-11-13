@@ -306,7 +306,7 @@ class RegistroController extends AbstractController
 
         $em = $this->getDoctrine()->getManager();
 
-        $file = "noaceptados.xls" ;
+        $file = "noaceptados.txt" ;
 
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('aceptado', false))
@@ -330,7 +330,7 @@ class RegistroController extends AbstractController
 
 
 
-        $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        $response->headers->set('Content-Type', 'application/txt');
 
         $response->headers->set('Content-Disposition', 'attachment; filename="' . basename($file) . '";');
 
